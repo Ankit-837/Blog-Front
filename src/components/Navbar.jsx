@@ -1,159 +1,190 @@
-import React from "react";
-import { Link, useNavigate } from "react-router-dom";
-import { CiLogin } from "react-icons/ci";
-import { GoPlusCircle } from "react-icons/go";
+import React, { useState, useEffect } from "react";
+import {
+  Menu,
+  X,
+  Home,
+  FileText,
+  User,
+  Settings,
+  Search,
+  Bell,
+  ChevronDown,
+} from "lucide-react";
 import { useAuth } from "../context/AuthContext";
+import { useNavigate } from "react-router-dom";
+import { IoLogIn } from "react-icons/io5";
 
 const Navbar = () => {
-  const { isLogin } = useAuth();
-  const { setUser, setToken, setIsLogin } = useAuth();
-  console.log("this is Islogin", isLogin);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
   const navigate = useNavigate();
+  const [isScrolled, setIsScrolled] = useState(false);
+  const [isProfileOpen, setIsProfileOpen] = useState(false);
+  const { isLogin, user, setIsLogin, setToken, setUser } = useAuth();
 
-  const handleLogout = () => {
-    setUser(null);
-    setToken(null);
-    setIsLogin(false);
-    navigate("/");
+  useEffect(() => {
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 20);
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
+  const toggleMenu = () => {
+    setIsMenuOpen(!isMenuOpen);
   };
-  return (
-    // <nav className="bg-gray-400 shadow-md">
-    //   <div className="max-w-7xl mx-auto px-2 py-3  flex justify-between">
-    //     <Link
-    //       to="/dashboard"
-    //       className=" flex justify-between items-center text-lg font-bold text-gray-800"
-    //     >
-    //       <span className="text-blue-700 text-[20px]">Post</span>
-    //       <span className=" text-[20px] ">ify</span>
-    //     </Link>
-    //     <div className="p-[2px]  flex  gap-1">
-    //       <Link
-    //         to="/login"
-    //         className="flex justify-between items-centerhover:text-black-600 border-2 px-4 py-[4px] text-white bg-blue-700 rounded-[3px] border-none  transition-colors duration-300 ease-in-out
-    //          hover:bg-blue-600 hover:text-white"
-    //       >
-    //         <span className="flex items-center ">
-    //           <CiLogin />
-    //         </span>
-    //         Login
-    //       </Link>
-    //       <Link
-    //         to="/register"
-    //         className="flex justify-between items-center
-    //          text-black border border-blue-700 px-4 py-[4px] rounded-[3px]
-    //          font-[600]
-    //          transition-colors duration-300 ease-in-out
-    //          hover:bg-blue-600 hover:text-white "
-    //       >
-    //         <span className="flex items-center ">
-    //           <GoPlusCircle />
-    //         </span>
-    //         Register
-    //       </Link>
-    //     </div>
-    //   </div>
-    // </nav>
-    <nav className="bg-white dark:bg-gray-900 fixed w-full z-20 top-0 start-0 border-b border-gray-200 dark:border-gray-600">
-      <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
-        <a className="flex items-center space-x-3 rtl:space-x-reverse">
-          <img
-            src="https://flowbite.com/docs/images/logo.svg"
-            className="h-8"
-            alt="Flowbite Logo"
-          />
-          <span className="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">
-            Postify
-          </span>
-        </a>
-        {isLogin === false && (
-          <div className="flex md:order-2 space-x-3 md:space-x-0 rtl:space-x-reverse">
-            <button
-              type="button"
-              className="text-white bg-[oklch(55.8%_0.288_302.321)] hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-8 py-2 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 cursor-pointer"
-              onClick={() => navigate("/login")}
-            >
-              Login
-            </button>
-            <button
-              type="button"
-              className="text-white hover:bg-blue-800 f  font-medium rounded-lg text-sm px-4 py-2 text-center border-1 border-blue-700 ms-4 cursor-pointer"
-              onClick={() => navigate("/register")}
-            >
-              Register
-            </button>
-            {isLogin === true && (
-              <button
-                data-collapse-toggle="navbar-sticky"
-                type="button"
-                className="inline-flex items-center p-2 w-10 h-10 justify-center text-sm text-gray-500 rounded-lg md:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600"
-                aria-controls="navbar-sticky"
-                aria-expanded="false"
-              >
-                <span className="sr-only">Open main menu</span>
-                <svg
-                  className="w-5 h-5"
-                  aria-hidden="true"
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 17 14"
-                >
-                  <path
-                    stroke="currentColor"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth="2"
-                    d="M1 1h15M1 7h15M1 13h15"
-                  />
-                </svg>
-              </button>
-            )}
-          </div>
-        )}
 
-        {isLogin === true && (
-          <div
-            className="items-center justify-between hidden w-full md:flex md:w-auto md:order-1"
-            id="navbar-sticky"
-          >
-            <ul className="flex flex-col p-4 md:p-0 mt-4 font-medium border border-gray-100 rounded-lg bg-gray-50 md:space-x-8 rtl:space-x-reverse md:flex-row md:mt-0 md:border-0 md:bg-white dark:bg-gray-800 md:dark:bg-gray-900 dark:border-gray-700">
-              <li>
-                <a
-                  href="#"
-                  className="block py-2 px-3 text-white bg-blue-700 rounded-sm md:bg-transparent md:text-blue-700 md:p-0 md:dark:text-blue-500"
-                  aria-current="page"
-                >
-                  Home
-                </a>
-              </li>
-              <li>
-                <a
-                  className="block py-2 px-3 text-gray-900 rounded-sm hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 md:dark:hover:text-blue-500 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700"
-                  onClick={() => navigate("/createpost")}
-                >
-                  Create Post
-                </a>
-              </li>
-              <li>
-                <a
-                  className="block py-2 px-3 text-gray-900 rounded-sm hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 md:dark:hover:text-blue-500 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700"
-                  onClick={handleLogout}
-                >
-                  Logout
-                </a>
-              </li>
-              {/* <li>
-                <a
-                  href="#"
-                  className="block py-2 px-3 text-gray-900 rounded-sm hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 md:dark:hover:text-blue-500 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700"
-                >
-                  Contact
-                </a>
-              </li> */}
-            </ul>
+  const toggleProfile = () => {
+    setIsProfileOpen(!isProfileOpen);
+  };
+
+  const navItems = [
+    { name: "Home", icon: Home, route: "/dashboard" },
+    { name: "Create Post", icon: FileText, route: "/createpost" },
+    { name: "Logout", icon: Settings, logout: true },
+  ];
+  const handleItemClick = (item) => {
+    if (item.logout) {
+      setUser(null);
+      setToken(null);
+      setIsLogin(false);
+      navigate("/login"); // navigate to login page after logout
+    } else if (item.route) {
+      navigate(item.route);
+    }
+  };
+
+  return (
+    <>
+      <nav
+        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
+          isScrolled
+            ? "bg-white/90 backdrop-blur-md shadow-lg border-b border-purple-100"
+            : "bg-gradient-to-r from-purple-600 via-blue-600 to-purple-800"
+        }`}
+      >
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex items-center justify-between h-16 lg:h-20">
+            {/* Logo */}
+            <div className="flex items-center">
+              <div
+                className={`text-2xl sm:text-3xl font-bold transition-colors duration-300 ${
+                  isScrolled ? "text-red-600" : "text-white"
+                }`}
+              >
+                <span className="bg-gradient-to-r from-red-600 to-blue-900 bg-clip-text text-transparent">
+                  Postify
+                </span>
+              </div>
+            </div>
+
+            {/* Desktop Navigation */}
+            <div className="hidden md:flex items-center space-x-2">
+              {isLogin === true &&
+                navItems.map((item) => (
+                  <a
+                    key={item.name}
+                    href={item.href}
+                    className={`flex items-center space-x-2 px-2 py-2 rounded-full  cursor-pointer transition-all duration-300 hover:bg-white/10 hover:backdrop-blur-sm ${
+                      isScrolled
+                        ? "text-gray-700 hover:text-purple-600 hover:bg-purple-50"
+                        : "text-white hover:text-purple-200"
+                    }`}
+                    onClick={() => handleItemClick(item)}
+                  >
+                    <item.icon className="w-5 h-5" />
+                    <span className="font-medium">{item.name}</span>
+                  </a>
+                ))}
+              {isLogin === false && (
+                <div className="flex items-center ">
+                  <a
+                    className={`flex items-center space-x-2 px-6 py-1 bg-purple-600 rounded-sm cursor-pointer transition-all duration-300 hover:bg-white/10 hover:backdrop-blur-sm ${
+                      isScrolled
+                        ? "text-gray-700 hover:text-purple-600 hover:bg-purple-50"
+                        : "text-white hover:text-purple-200"
+                    }`}
+                    onClick={() => navigate("/login")}
+                  >
+                    <span className="font-medium flex items-center">
+                      <span>
+                        <IoLogIn />
+                      </span>
+                      Login
+                    </span>
+                  </a>
+                  <a
+                    className={`flex items-center space-x-2 px-6 py-1 rounded-sm ms-2 cursor-pointer transition-all duration-300 hover:bg-white/10 hover:backdrop-blur-sm ${
+                      isScrolled
+                        ? "text-gray-700 hover:text-purple-600 hover:bg-purple-50"
+                        : "text-white hover:text-purple-200"
+                    }`}
+                    onClick={() => navigate("/register")}
+                  >
+                    <span className="font-medium">Register</span>
+                  </a>
+                </div>
+              )}
+            </div>
+
+            <div className="md:hidden">
+              <button
+                onClick={toggleMenu}
+                className={`p-2 rounded-full transition-all duration-300 hover:bg-white/10 ${
+                  isScrolled
+                    ? "text-gray-700 hover:text-purple-600 hover:bg-purple-50"
+                    : "text-white hover:text-purple-200"
+                }`}
+              >
+                {isMenuOpen ? (
+                  <X className="w-6 h-6" />
+                ) : (
+                  <Menu className="w-6 h-6" />
+                )}
+              </button>
+            </div>
           </div>
-        )}
-      </div>
-    </nav>
+        </div>
+
+        <div
+          className={`md:hidden transition-all duration-300 ease-in-out ${
+            isMenuOpen ? "max-h-96 opacity-100" : "max-h-0 opacity-0"
+          } overflow-hidden`}
+        >
+          <div className="px-4 pt-2 pb-4 space-y-2 bg-white/95 backdrop-blur-md border-t border-purple-100">
+            {/* Mobile Navigation Items */}
+            {navItems.map((item) => (
+              <a
+                key={item.name}
+                href={item.href}
+                className="flex items-center space-x-3 px-4 py-3 rounded-lg text-gray-700 hover:bg-purple-50 hover:text-purple-600 transition-all duration-300"
+                onClick={() => setIsMenuOpen(false)}
+              >
+                <item.icon className="w-5 h-5" />
+                <span className="font-medium">{item.name}</span>
+              </a>
+            ))}
+
+            {/* Mobile Actions */}
+            <div className="border-t border-gray-200 pt-4 mt-4">
+              <div className="flex items-center justify-between px-4 py-3">
+                <div className="flex items-center space-x-3">
+                  <div className="w-10 h-10 bg-gradient-to-r from-purple-500 to-blue-500 rounded-full flex items-center justify-center">
+                    <User className="w-6 h-6 text-white" />
+                  </div>
+                  <div>
+                    <div className="font-semibold text-gray-800">John Doe</div>
+                    <div className="text-sm text-gray-500">
+                      john@example.com
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </nav>
+    </>
   );
 };
 

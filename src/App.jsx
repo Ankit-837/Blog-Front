@@ -10,20 +10,51 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import BlogPostPage from "./pages/BlogPostPage";
 import PostUpdate from "./pages/PostUpdate";
+import ProtectedRoute from "./components/ProtectedRoute";
 
 function App() {
   return (
     <BrowserRouter>
-      <div className="">
+      <div>
         <ToastContainer />
         <Routes>
           <Route path="/" element={<Layout />} />
           <Route path="/register" element={<Register />} />
           <Route path="/login" element={<Login />} />
-          <Route path="/dashboard" element={<Dashboard />} />
-          <Route path="/posts/:id" element={<PostPage />} />
-          <Route path="/createpost" element={<BlogPostPage />} />
-          <Route path="/updatepost/:id" element={<PostUpdate />} />
+
+          {/* Protected Routes */}
+          <Route
+            path="/dashboard"
+            element={
+              <ProtectedRoute>
+                <Dashboard />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/posts/:id"
+            element={
+              <ProtectedRoute>
+                <PostPage />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/createpost"
+            element={
+              <ProtectedRoute>
+                <BlogPostPage />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/updatepost/:id"
+            element={
+              <ProtectedRoute>
+                <PostUpdate />
+              </ProtectedRoute>
+            }
+          />
         </Routes>
       </div>
     </BrowserRouter>

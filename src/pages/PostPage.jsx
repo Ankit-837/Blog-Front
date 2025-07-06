@@ -5,9 +5,12 @@ import useSWR from "swr";
 import { deleteData, fetchData } from "../api/ClientFunction";
 import { toast } from "react-toastify";
 import { IoMdArrowRoundBack } from "react-icons/io";
+import { useAuth } from "../context/AuthContext";
 
 const PostPage = () => {
   const [isLoading, setIsLoading] = useState({ update: false, delete: false });
+  const { user } = useAuth();
+  console.log("thi si user", user);
   const [isVisible, setIsVisible] = useState(false);
   const [apiData, setApiData] = useState([]);
   const { id } = useParams();
@@ -102,57 +105,59 @@ const PostPage = () => {
             </div>
           </div>
 
-          {/* Action Buttons */}
-          <div className="bg-gray-50/80 backdrop-blur-sm px-6 sm:px-8 lg:px-12 py-6 sm:py-8 border-t border-gray-200">
-            <div className="flex flex-col sm:flex-row gap-4 sm:gap-6 justify-center items-center">
-              <button
-                onClick={handleUpdate}
-                disabled={isLoading.update || isLoading.delete}
-                className={`group relative overflow-hidden w-full sm:w-auto px-6 sm:px-8 py-3 sm:py-4 bg-gradient-to-r from-purple-600 to-blue-600 text-white rounded-full font-semibold text-sm sm:text-base transition-all duration-300 hover:shadow-lg hover:shadow-purple-500/25 hover:-translate-y-1 active:translate-y-0 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none ${
-                  isLoading.update ? "animate-pulse" : ""
-                }`}
-              >
-                <span className="absolute inset-0 bg-white/20 -translate-x-full group-hover:translate-x-full transition-transform duration-700"></span>
-                <div className="relative flex items-center justify-center gap-2">
-                  {isLoading.update ? (
-                    <>
-                      <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
-                      <span>Updating...</span>
-                    </>
-                  ) : (
-                    <>
-                      <Edit3 className="w-4 h-4 sm:w-5 sm:h-5" />
-                      <span>Update Blog</span>
-                    </>
-                  )}
-                </div>
-              </button>
+          {apiData?.author?._id === user?._id || 
+            user?.role === "superadmin" && (
+              <div className="bg-gray-50/80 backdrop-blur-sm px-6 sm:px-8 lg:px-12 py-6 sm:py-8 border-t border-gray-200">
+                <div className="flex flex-col sm:flex-row gap-4 sm:gap-6 justify-center items-center">
+                  <button
+                    onClick={handleUpdate}
+                    disabled={isLoading.update || isLoading.delete}
+                    className={`group relative overflow-hidden w-full sm:w-auto px-6 sm:px-8 py-3 sm:py-4 bg-gradient-to-r from-purple-600 to-blue-600 text-white rounded-full font-semibold text-sm sm:text-base transition-all duration-300 hover:shadow-lg hover:shadow-purple-500/25 hover:-translate-y-1 active:translate-y-0 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none ${
+                      isLoading.update ? "animate-pulse" : ""
+                    }`}
+                  >
+                    <span className="absolute inset-0 bg-white/20 -translate-x-full group-hover:translate-x-full transition-transform duration-700"></span>
+                    <div className="relative flex items-center justify-center gap-2">
+                      {isLoading.update ? (
+                        <>
+                          <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
+                          <span>Updating...</span>
+                        </>
+                      ) : (
+                        <>
+                          <Edit3 className="w-4 h-4 sm:w-5 sm:h-5" />
+                          <span>Update Blog</span>
+                        </>
+                      )}
+                    </div>
+                  </button>
 
-              {/* Delete Button */}
-              <button
-                onClick={() => handleDelete(apiData?._id)}
-                disabled={isLoading.update || isLoading.delete}
-                className={`group relative overflow-hidden w-full sm:w-auto px-6 sm:px-8 py-3 sm:py-4 bg-gradient-to-r from-red-500 to-red-600 text-white rounded-full font-semibold text-sm sm:text-base transition-all duration-300 hover:shadow-lg hover:shadow-red-500/25 hover:-translate-y-1 active:translate-y-0 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none ${
-                  isLoading.delete ? "animate-pulse" : ""
-                }`}
-              >
-                <span className="absolute inset-0 bg-white/20 -translate-x-full group-hover:translate-x-full transition-transform duration-700"></span>
-                <div className="relative flex items-center justify-center gap-2">
-                  {isLoading.delete ? (
-                    <>
-                      <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
-                      <span>Deleting...</span>
-                    </>
-                  ) : (
-                    <>
-                      <Trash2 className="w-4 h-4 sm:w-5 sm:h-5" />
-                      <span>Delete Blog</span>
-                    </>
-                  )}
+                  {/* Delete Button */}
+                  <button
+                    onClick={() => handleDelete(apiData?._id)}
+                    disabled={isLoading.update || isLoading.delete}
+                    className={`group relative overflow-hidden w-full sm:w-auto px-6 sm:px-8 py-3 sm:py-4 bg-gradient-to-r from-red-500 to-red-600 text-white rounded-full font-semibold text-sm sm:text-base transition-all duration-300 hover:shadow-lg hover:shadow-red-500/25 hover:-translate-y-1 active:translate-y-0 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none ${
+                      isLoading.delete ? "animate-pulse" : ""
+                    }`}
+                  >
+                    <span className="absolute inset-0 bg-white/20 -translate-x-full group-hover:translate-x-full transition-transform duration-700"></span>
+                    <div className="relative flex items-center justify-center gap-2">
+                      {isLoading.delete ? (
+                        <>
+                          <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
+                          <span>Deleting...</span>
+                        </>
+                      ) : (
+                        <>
+                          <Trash2 className="w-4 h-4 sm:w-5 sm:h-5" />
+                          <span>Delete Blog</span>
+                        </>
+                      )}
+                    </div>
+                  </button>
                 </div>
-              </button>
-            </div>
-          </div>
+              </div>
+            )}
         </div>
       </div>
     </div>

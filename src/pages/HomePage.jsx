@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { ArrowRight, Calendar, User, Eye, Heart, Share2 } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 
 const BlogHomepage = () => {
   const [isVisible, setIsVisible] = useState(false);
   const [currentSlide, setCurrentSlide] = useState(0);
+  const navigate = useNavigate();
 
   useEffect(() => {
     setIsVisible(true);
@@ -12,6 +14,9 @@ const BlogHomepage = () => {
     }, 5000);
     return () => clearInterval(timer);
   }, []);
+  const handleLogin = () => {
+    navigate("/login");
+  };
 
   const featuredPosts = [
     {
@@ -110,10 +115,16 @@ const BlogHomepage = () => {
               articles on technology, design, and innovation.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <button className="bg-white text-blue-600 px-8 py-3 rounded-full font-semibold hover:bg-blue-50 transition-colors duration-200 transform hover:scale-105">
+              <button
+                className="bg-white text-blue-600 px-8 py-3 rounded-full font-semibold hover:bg-blue-50 transition-colors duration-200 transform hover:scale-105"
+                onClick={handleLogin}
+              >
                 Start Reading
               </button>
-              <button className="border-2 border-white text-white px-8 py-3 rounded-full font-semibold hover:bg-white hover:text-blue-600 transition-all duration-200 transform hover:scale-105">
+              <button
+                className="border-2 border-white text-white px-8 py-3 rounded-full font-semibold hover:bg-white hover:text-blue-600 transition-all duration-200 transform hover:scale-105"
+                onClick={handleLogin}
+              >
                 Write Your Story
               </button>
             </div>
