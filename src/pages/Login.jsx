@@ -44,7 +44,7 @@ export default function LoginPage() {
       }
     } catch (error) {
       console.error("Login Error:", error);
-      toast.error("Something went wrong. Please try again.");
+      toast.error(error.response || error);
     } finally {
       setSubmitting(false);
     }
