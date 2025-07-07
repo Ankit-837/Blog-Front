@@ -92,7 +92,7 @@ const BlogHomepage = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-slate-100 my-[71px]">
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-slate-100 my-[60px]">
       {/* Hero Section */}
       <section className="relative overflow-hidden bg-gradient-to-br from-blue-600 via-purple-600 to-indigo-700">
         <div className="absolute inset-0 bg-black/20"></div>

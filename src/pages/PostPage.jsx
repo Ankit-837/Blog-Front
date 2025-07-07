@@ -6,6 +6,7 @@ import { deleteData, fetchData } from "../api/ClientFunction";
 import { toast } from "react-toastify";
 import { IoMdArrowRoundBack } from "react-icons/io";
 import { useAuth } from "../context/AuthContext";
+import Loader from "../components/Loader";
 
 const PostPage = () => {
   const [isLoading, setIsLoading] = useState({ update: false, delete: false });
@@ -50,6 +51,13 @@ const PostPage = () => {
       setIsLoading({ ...isLoading, delete: false });
     }
   };
+  if (isloading) {
+    return (
+      <div>
+        <Loader />
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-purple-600 via-blue-600 to-purple-800 p-4 sm:p-6 lg:p-8">
@@ -105,8 +113,8 @@ const PostPage = () => {
             </div>
           </div>
 
-          {apiData?.author?._id === user?._id || 
-            user?.role === "superadmin" && (
+          {apiData?.author?._id === user?._id ||
+            (user?.role === "superadmin" && (
               <div className="bg-gray-50/80 backdrop-blur-sm px-6 sm:px-8 lg:px-12 py-6 sm:py-8 border-t border-gray-200">
                 <div className="flex flex-col sm:flex-row gap-4 sm:gap-6 justify-center items-center">
                   <button
@@ -157,7 +165,7 @@ const PostPage = () => {
                   </button>
                 </div>
               </div>
-            )}
+            ))}
         </div>
       </div>
     </div>

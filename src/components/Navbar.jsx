@@ -79,9 +79,9 @@ const Navbar = () => {
             </div>
 
             {/* Desktop Navigation */}
-            <div className="hidden md:flex items-center space-x-2">
-              {isLogin === true &&
-                navItems.map((item) => (
+            {isLogin === true && (
+              <div className="hidden md:flex items-center space-x-2">
+                {navItems.map((item) => (
                   <a
                     key={item.name}
                     href={item.href}
@@ -96,7 +96,10 @@ const Navbar = () => {
                     <span className="font-medium">{item.name}</span>
                   </a>
                 ))}
-              {isLogin === false && (
+              </div>
+            )}
+            {isLogin === false && (
+              <div className="flex items-center space-x-2">
                 <div className="flex items-center ">
                   <a
                     className={`flex items-center space-x-2 px-6 py-1 bg-purple-600 rounded-sm cursor-pointer transition-all duration-300 hover:bg-white/10 hover:backdrop-blur-sm ${
@@ -124,25 +127,27 @@ const Navbar = () => {
                     <span className="font-medium">Register</span>
                   </a>
                 </div>
-              )}
-            </div>
+              </div>
+            )}
 
-            <div className="md:hidden">
-              <button
-                onClick={toggleMenu}
-                className={`p-2 rounded-full transition-all duration-300 hover:bg-white/10 ${
-                  isScrolled
-                    ? "text-gray-700 hover:text-purple-600 hover:bg-purple-50"
-                    : "text-white hover:text-purple-200"
-                }`}
-              >
-                {isMenuOpen ? (
-                  <X className="w-6 h-6" />
-                ) : (
-                  <Menu className="w-6 h-6" />
-                )}
-              </button>
-            </div>
+            {isLogin === true && (
+              <div className="md:hidden">
+                <button
+                  onClick={toggleMenu}
+                  className={`p-2 rounded-full transition-all duration-300 hover:bg-white/10 ${
+                    isScrolled
+                      ? "text-gray-700 hover:text-purple-600 hover:bg-purple-50"
+                      : "text-white hover:text-purple-200"
+                  }`}
+                >
+                  {isMenuOpen ? (
+                    <X className="w-6 h-6" />
+                  ) : (
+                    <Menu className="w-6 h-6" />
+                  )}
+                </button>
+              </div>
+            )}
           </div>
         </div>
 
@@ -158,7 +163,10 @@ const Navbar = () => {
                 key={item.name}
                 href={item.href}
                 className="flex items-center space-x-3 px-4 py-3 rounded-lg text-gray-700 hover:bg-purple-50 hover:text-purple-600 transition-all duration-300"
-                onClick={() => setIsMenuOpen(false)}
+                onClick={() => {
+                  handleItemClick(item);
+                  setIsMenuOpen(false);
+                }}
               >
                 <item.icon className="w-5 h-5" />
                 <span className="font-medium">{item.name}</span>
@@ -166,21 +174,19 @@ const Navbar = () => {
             ))}
 
             {/* Mobile Actions */}
-            <div className="border-t border-gray-200 pt-4 mt-4">
+            {/* <div className="border-t border-gray-200 pt-4 mt-4">
               <div className="flex items-center justify-between px-4 py-3">
                 <div className="flex items-center space-x-3">
                   <div className="w-10 h-10 bg-gradient-to-r from-purple-500 to-blue-500 rounded-full flex items-center justify-center">
                     <User className="w-6 h-6 text-white" />
                   </div>
                   <div>
-                    <div className="font-semibold text-gray-800">John Doe</div>
-                    <div className="text-sm text-gray-500">
-                      john@example.com
-                    </div>
+                    <div className="font-semibold text-gray-800"></div>
+                    <div className="text-sm text-gray-500">{user.username}</div>
                   </div>
                 </div>
               </div>
-            </div>
+            </div> */}
           </div>
         </div>
       </nav>
