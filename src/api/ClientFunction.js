@@ -1,7 +1,7 @@
 import axios from "axios";
 
-// export const baseURL = "http://localhost:5000/api";
-export const baseURL = "blog-backend-production-1be0.up.railway.app";
+export const baseURL = "http://localhost:5000/api";
+// export const baseURL = "blog-backend-production-1be0.up.railway.app";
 
 if (!baseURL) {
   console.error(
